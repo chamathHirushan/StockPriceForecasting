@@ -33,3 +33,40 @@ data_load_state = st.text("loaded " + selected_stock + " successfully")
 
 st.subheader("Raw data")
 st.write(data.tail())
+
+
+def plot_raw_data(stock_name):
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data['Date'],
+                  y=data['Open'], name=stock_name+" stock open"))
+    fig.add_trace(go.Scatter(x=data['Date'],
+                  y=data['Close'], name=stock_name+" Stock close"))
+    fig.layout.update(title_text='Time Series Data for ' + stock_name,
+                      xaxis_rangeslider_visible=True)
+    st.plotly_chart(fig)
+
+
+plot_raw_data(selected_stock)
+
+# Forecasting with prophet
+df_train = data[['Date', 'Close']]
+df_train = df_train.rename(columns={"Date": 'ds',
+                                    "Close": 'y'})
+
+model = Prophet()
+model.fit(df_train)
+future = model.make_future_dataframe(periods=period)
+forecast = model.predict(future)
+
+# prediction
+st.subheader("Forecast data")
+st.write(forecast.tail())
+
+# plot the prediction
+st.write('Forecast data')
+fig1 = plot_plotly(model, forecast)
+st.plotly_chart(fig1)
+
+st.write('Forecast compnents')
+fig2 = model.plot_components(forecast)
+st.write(fig2)
