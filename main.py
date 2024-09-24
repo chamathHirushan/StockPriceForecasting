@@ -12,7 +12,8 @@ TODAY = date.today().strftime("%Y-%m-%d")
 
 st.title("Stock Prediction App")
 
-stocks = ("AAPL", "GOOG", "MSFT")
+
+stocks = ("AAPL", "GOOG", "MSFT", "TSLA", "META")
 selected_stock = st.selectbox("Select the dataset for predictions", stocks)
 
 n_years = st.slider("Years of prediction :", 1, 4)
@@ -59,14 +60,14 @@ future = model.make_future_dataframe(periods=period)
 forecast = model.predict(future)
 
 # prediction
-st.subheader("Forecast data")
+st.subheader("Forecast data for "+selected_stock)
 st.write(forecast.tail())
 
 # plot the prediction
-st.write('Forecast data')
+st.write('Forecast'+selected_stock+' data')
 fig1 = plot_plotly(model, forecast)
 st.plotly_chart(fig1)
 
-st.write('Forecast compnents')
+st.write('Forecast components of '+selected_stock)
 fig2 = model.plot_components(forecast)
 st.write(fig2)
