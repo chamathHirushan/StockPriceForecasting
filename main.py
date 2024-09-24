@@ -10,7 +10,7 @@ print("hello world")
 
 
 START = "2018-01-01"
-TODAY = date.today().strtime("%Y-%m-%d")
+TODAY = date.today().strftime("%Y-%m-%d")
 
 st.title("Stock Prediction App")
 
