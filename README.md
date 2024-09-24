@@ -1,1 +1,3 @@
-# Stock price forecasting application using facebooks prophet model
+# Stock price forecasting application
+
+Used facebook prophet model
